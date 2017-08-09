@@ -126,33 +126,17 @@ make_random_emoji = ->
 
 emojis = (make_random_emoji() for [1..12])
 
-t = 0
-animate ->
+emojis_container = document.getElementById("emojis")
+
+for emoji in emojis
+	canvas = document.createElement("canvas")
+	ctx = canvas.getContext("2d")
 	
-	{width: w, height: h} = canvas
-	t += 0.1
-	
-	ctx.clearRect 0, 0, w, h
-	
-	x = 0
-	y = 0
-	per_row = 3
 	size = 150
-	grid_size = size * 1.1 + 10
-	rows = emojis.length // per_row
-	# TODO: scale down to fit all emojis on screen
-	# or even just change the canvas size and make the page scrollable
-	# or even just add multiple canvases to the DOM
-	ctx.save()
-	ctx.translate(
-		(w - grid_size * per_row) / 2
-		(h - grid_size * rows / 2) / 2
-	)
-	for emoji, i in emojis
-		draw_emoji(emoji, x * grid_size, y * grid_size, size)
-		x += 1
-		if x > per_row
-			x = 0
-			y += 1
+	spacing = size * 0.1 + 5
+	canvas.width = size + spacing
+	canvas.height = size + spacing
 	
-	ctx.restore()
+	draw_emoji(emoji, canvas.width/2, canvas.height/2, size)
+	
+	emojis_container.appendChild(canvas)

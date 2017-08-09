@@ -8,16 +8,22 @@
 		<style>
 			body {
 				margin: 0;
-				overflow: hidden;
+			}
+			#emojis {
+				text-align: center;
+				max-width: 800px;
+				margin: auto;
+				padding: 15px;
 			}
 		</style>
 	</head>
 	<body>
+		<div id="emojis"></div>
 		<script>
-			~function(){var d=document,b=d.body,c=b.appendChild(d.createElement("canvas")),p,i,k
-			canvas=c;ctx=c.getContext("2d");(onresize=function(){c.width=innerWidth,c.height=innerHeight})()
-			animate=function a(f){f(),requestAnimationFrame(function(){a(f)})}
-			for(p=Object.getOwnPropertyNames(Math),i=0;k=p[i];i++){self[k]=Math[k]}TAU=PI*2}()
+			~function(){
+				animate=function a(f){f(),requestAnimationFrame(function(){a(f)})}
+				for(p=Object.getOwnPropertyNames(Math),i=0;k=p[i];i++){self[k]=Math[k]}TAU=PI*2
+			}()
 		</script>
 		<script src="lib/coffee-script.js"></script>
 		<script src="app.coffee" type="text/coffeescript"></script>
