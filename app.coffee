@@ -78,6 +78,8 @@ draw_emoji = (ctx, {eyes, mouth}, x, y, diameter)->
 	
 	draw_eye = (eye, x, y)->
 		ctx.beginPath()
+		x += eye.offset_x * radius
+		y += eye.offset_y * radius
 		switch eye.type
 			when "open"
 				ctx.arc(x, y, radius/6, 0, TAU)
@@ -100,8 +102,13 @@ draw_emoji = (ctx, {eyes, mouth}, x, y, diameter)->
 
 
 make_random_emoji = ->
+	choose_random = (array)->
+		array[~~(Math.random() * array.length)]
+	
 	random_eye = ->
 		type: if Math.random() < 0.3 then "wink" else "open"
+		offset_x: (Math.random() - 0.5)
+		offset_y: (Math.random() - 0.5)
 	eyes:
 		left: random_eye()
 		right: random_eye()
@@ -116,7 +123,8 @@ make_random_emoji = ->
 		# slant: 0 # -1..1?
 		tongue: # -1..1? TODO: offsets or angle or whatever
 			if Math.random() < 0.7
-				Math.random() - Math.random()
+				# Math.random() - Math.random()
+				choose_random([-1, -0.5, 0.5, 1])
 			else 0 # for dat.gui's benefit
 		# TODO: width & offset or whatever
 		# TODO: :O :o :3 :S :P :9 :F :C :c :B :] :J :I :T :*
@@ -142,21 +150,22 @@ for emoji in emojis
 	canvas.height = size + spacing
 	
 	draw_emoji(ctx, emoji, canvas.width/2, canvas.height/2, size)
-	
+
+emoji = make_random_emoji()
+
 gui = new dat.GUI()
-gui.add(emoji.mouth, 'smile', -1, +1).name('Smile')
-gui.add(emoji.mouth, 'open').name('Open')
-# gui.add(emoji.mouth, 'tongue', {
-# 	"(Inside mouth)": 0,
-# 	"Out downwards": 1,
-# 	"Out upwards": -1,
-# 	"Out downwards less": 0.5,
-# 	"Out upwards less": -0.5,
-# }) # doesn't work, it gives strings
-# gui.add(emoji.mouth, 'tongue', {min: -1, max: 1, step: 0.5}) # doesn't work, it's treated as a dropdown
-gui.add(emoji.mouth, 'tongue', -1, +1).step(0.5)
-gui.add(emoji.eyes.left, 'type', {"Open": "open", "Wink": "wink"}).name('Left Eye')
-gui.add(emoji.eyes.right, 'type', {"Open": "open", "Wink": "wink"}).name('Right Eye')
+mouth_folder = gui.addFolder('Mouth')
+mouth_folder.add(emoji.mouth, 'smile', -1, +1).name('Smile')
+mouth_folder.add(emoji.mouth, 'open').name('Open')
+mouth_folder.add(emoji.mouth, 'tongue', -1, +1).step(0.5)
+eyes_folder = gui.addFolder('Eyes')
+eyes_folder.add(emoji.eyes.left, 'type', {"Open": "open", "Wink": "wink"}).name('Left Eye')
+eyes_folder.add(emoji.eyes.left, 'offset_x', -1, 1).name('Left Eye X')
+eyes_folder.add(emoji.eyes.left, 'offset_y', -1, 1).name('Left Eye Y')
+eyes_folder.add(emoji.eyes.right, 'type', {"Open": "open", "Wink": "wink"}).name('Right Eye')
+eyes_folder.add(emoji.eyes.right, 'offset_x', -1, 1).name('Right Eye X')
+eyes_folder.add(emoji.eyes.right, 'offset_y', -1, 1).name('Right Eye Y')
+
 
 
 canvas = document.createElement("canvas")
@@ -171,5 +180,6 @@ canvas.width = size + spacing
 canvas.height = size + spacing
 
 animate ->
+	ctx.clearRect(0, 0, canvas.width, canvas.height)
 	draw_emoji(ctx, emoji, canvas.width/2, canvas.height/2, size)
 
