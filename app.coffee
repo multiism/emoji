@@ -1,5 +1,5 @@
 
-draw_emoji = ({eyes, mouth}, x, y, diameter)->
+draw_emoji = (ctx, {eyes, mouth}, x, y, diameter)->
 	
 	radius = diameter / 2
 	
@@ -57,8 +57,7 @@ draw_emoji = ({eyes, mouth}, x, y, diameter)->
 		ctx.stroke()
 		
 		if mouth.tongue
-			# TODO: mesh well with the mouth (in more cases)
-			# and maybe don't do tongues that are only slightly out
+			# TODO: mesh with the curve of the mouth
 			ctx.beginPath()
 			for i in [0..1] by 0.1
 				ctx.lineTo(
@@ -79,16 +78,17 @@ draw_emoji = ({eyes, mouth}, x, y, diameter)->
 	
 	draw_eye = (eye, x, y)->
 		ctx.beginPath()
-		if eye.wink
-			ctx.moveTo(x - radius/7, y)
-			ctx.lineTo(x + radius/7, y)
-			ctx.strokeStyle = "black"
-			ctx.lineWidth = 10
-			ctx.stroke()
-		else
-			ctx.arc(x, y, radius/6, 0, TAU)
-			ctx.fillStyle = "black"
-			ctx.fill()
+		switch eye.type
+			when "open"
+				ctx.arc(x, y, radius/6, 0, TAU)
+				ctx.fillStyle = "black"
+				ctx.fill()
+			when "wink"
+				ctx.moveTo(x - radius/7, y)
+				ctx.lineTo(x + radius/7, y)
+				ctx.strokeStyle = "black"
+				ctx.lineWidth = 10
+				ctx.stroke()
 	
 	if eyes?.left
 		draw_eye(eyes.left, -radius*0.4, -radius/3)
@@ -101,7 +101,7 @@ draw_emoji = ({eyes, mouth}, x, y, diameter)->
 
 make_random_emoji = ->
 	random_eye = ->
-		wink: Math.random() < 0.3 # bool
+		type: if Math.random() < 0.3 then "wink" else "open"
 	eyes:
 		left: random_eye()
 		right: random_eye()
@@ -117,6 +117,7 @@ make_random_emoji = ->
 		tongue: # -1..1? TODO: offsets or angle or whatever
 			if Math.random() < 0.7
 				Math.random() - Math.random()
+			else 0 # for dat.gui's benefit
 		# TODO: width & offset or whatever
 		# TODO: :O :o :3 :S :P :9 :F :C :c :B :] :J :I :T :*
 	# TODO: skin color
@@ -132,11 +133,43 @@ for emoji in emojis
 	canvas = document.createElement("canvas")
 	ctx = canvas.getContext("2d")
 	
+	canvas.classList.add("emoji")
+	emojis_container.appendChild(canvas)
+
 	size = 150
 	spacing = size * 0.1 + 5
 	canvas.width = size + spacing
 	canvas.height = size + spacing
 	
-	draw_emoji(emoji, canvas.width/2, canvas.height/2, size)
+	draw_emoji(ctx, emoji, canvas.width/2, canvas.height/2, size)
 	
-	emojis_container.appendChild(canvas)
+gui = new dat.GUI()
+gui.add(emoji.mouth, 'smile', -1, +1).name('Smile')
+gui.add(emoji.mouth, 'open').name('Open')
+# gui.add(emoji.mouth, 'tongue', {
+# 	"(Inside mouth)": 0,
+# 	"Out downwards": 1,
+# 	"Out upwards": -1,
+# 	"Out downwards less": 0.5,
+# 	"Out upwards less": -0.5,
+# }) # doesn't work, it gives strings
+# gui.add(emoji.mouth, 'tongue', {min: -1, max: 1, step: 0.5}) # doesn't work, it's treated as a dropdown
+gui.add(emoji.mouth, 'tongue', -1, +1).step(0.5)
+gui.add(emoji.eyes.left, 'type', {"Open": "open", "Wink": "wink"}).name('Left Eye')
+gui.add(emoji.eyes.right, 'type', {"Open": "open", "Wink": "wink"}).name('Right Eye')
+
+
+canvas = document.createElement("canvas")
+ctx = canvas.getContext("2d")
+
+canvas.classList.add("emoji")
+emojis_container.appendChild(canvas)
+
+size = 150
+spacing = size * 0.1 + 5
+canvas.width = size + spacing
+canvas.height = size + spacing
+
+animate ->
+	draw_emoji(ctx, emoji, canvas.width/2, canvas.height/2, size)
+
