@@ -133,11 +133,12 @@ make_random_emoji = ->
 	# TODO: animation (maybe have an update method on these objects? or have higher level descriptors?)
 
 
-emojis = (make_random_emoji() for [1..12])
-
 emojis_container = document.getElementById("emojis")
 
-for emoji in emojis
+selected_emoji_display = null
+
+make_emoji_display = (emoji)->
+	
 	canvas = document.createElement("canvas")
 	ctx = canvas.getContext("2d")
 	
@@ -149,37 +150,51 @@ for emoji in emojis
 	canvas.width = size + spacing
 	canvas.height = size + spacing
 	
-	draw_emoji(ctx, emoji, canvas.width/2, canvas.height/2, size)
-
-emoji = make_random_emoji()
-
-gui = new dat.GUI()
-mouth_folder = gui.addFolder('Mouth')
-mouth_folder.add(emoji.mouth, 'smile', -1, +1).name('Smile')
-mouth_folder.add(emoji.mouth, 'open').name('Open')
-mouth_folder.add(emoji.mouth, 'tongue', -1, +1).step(0.5)
-eyes_folder = gui.addFolder('Eyes')
-eyes_folder.add(emoji.eyes.left, 'type', {"Open": "open", "Wink": "wink"}).name('Left Eye')
-eyes_folder.add(emoji.eyes.left, 'offset_x', -1, 1).name('Left Eye X')
-eyes_folder.add(emoji.eyes.left, 'offset_y', -1, 1).name('Left Eye Y')
-eyes_folder.add(emoji.eyes.right, 'type', {"Open": "open", "Wink": "wink"}).name('Right Eye')
-eyes_folder.add(emoji.eyes.right, 'offset_x', -1, 1).name('Right Eye X')
-eyes_folder.add(emoji.eyes.right, 'offset_y', -1, 1).name('Right Eye Y')
+	do update = =>
+		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		draw_emoji(ctx, emoji, canvas.width/2, canvas.height/2, size)
+	
+	this_emoji_display = {emoji, canvas, ctx, size, update}
+	
+	canvas.style.cursor = "pointer"
+	canvas.addEventListener "click", (e)=>
+		selected_emoji_display = this_emoji_display
+		toggle_dat_gui_for_emoji(emoji)
+	
+	this_emoji_display
 
 
+dat_gui = null
+dat_gui_open_for_emoji = null
+toggle_dat_gui_for_emoji = (emoji)->
+	if dat_gui and dat_gui_open_for_emoji is emoji
+		dat_gui.destroy()
+		dat_gui = null
+	else
+		open_dat_gui_for_emoji(emoji)
+open_dat_gui_for_emoji = (emoji)->
+	dat_gui?.destroy()
+	dat_gui = new dat.GUI()
+	dat_gui_open_for_emoji = emoji
+	mouth_folder = dat_gui.addFolder('Mouth')
+	mouth_folder.open()
+	mouth_folder.add(emoji.mouth, 'smile', -1, +1).name('Smile')
+	mouth_folder.add(emoji.mouth, 'open').name('Open')
+	mouth_folder.add(emoji.mouth, 'tongue', -1, +1).step(0.5)
+	eyes_folder = dat_gui.addFolder('Eyes')
+	eyes_folder.open()
+	eyes_folder.add(emoji.eyes.left, 'type', {"Open": "open", "Wink": "wink"}).name('Left Eye')
+	eyes_folder.add(emoji.eyes.left, 'offset_x', -1, 1).name('Left Eye X')
+	eyes_folder.add(emoji.eyes.left, 'offset_y', -1, 1).name('Left Eye Y')
+	eyes_folder.add(emoji.eyes.right, 'type', {"Open": "open", "Wink": "wink"}).name('Right Eye')
+	eyes_folder.add(emoji.eyes.right, 'offset_x', -1, 1).name('Right Eye X')
+	eyes_folder.add(emoji.eyes.right, 'offset_y', -1, 1).name('Right Eye Y')
 
-canvas = document.createElement("canvas")
-ctx = canvas.getContext("2d")
 
-canvas.classList.add("emoji")
-emojis_container.appendChild(canvas)
-
-size = 150
-spacing = size * 0.1 + 5
-canvas.width = size + spacing
-canvas.height = size + spacing
+emojis = (make_random_emoji() for [1..12])
+emoji_displays = (make_emoji_display(emoji) for emoji in emojis)
+selected_emoji_display = emoji_displays[emoji_displays.length - 1]
 
 animate ->
-	ctx.clearRect(0, 0, canvas.width, canvas.height)
-	draw_emoji(ctx, emoji, canvas.width/2, canvas.height/2, size)
+	selected_emoji_display?.update()
 
