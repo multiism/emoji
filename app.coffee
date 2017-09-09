@@ -191,9 +191,7 @@ open_dat_gui_for_emoji = (emoji)->
 	eyes_folder.add(emoji.eyes.right, 'offset_y', -1, 1).name('Right Eye Y')
 
 
-emojis = (make_random_emoji() for [1..12])
-emoji_displays = (make_emoji_display(emoji) for emoji in emojis)
-selected_emoji_display = emoji_displays[emoji_displays.length - 1]
+emoji_displays = (make_emoji_display(make_random_emoji()) for [1..12])
 
 animate ->
 	selected_emoji_display?.update()
