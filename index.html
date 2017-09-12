@@ -8,17 +8,56 @@
 		<style>
 			body {
 				margin: 0;
-			}
-			#emojis {
+				font-family: sans-serif;
+				font-size: 24px;
 				text-align: center;
 				max-width: 800px;
 				margin: auto;
+			}
+			#emojis {
 				padding: 15px;
+			}
+			footer {
+				text-align: center;
+				/*background: hsla(152, 100%, 67%, 1);*/
+				color: black;
+				padding: 50px;
+			}
+			footer ul {
+				line-height: 2em;
+				list-style: none;
+			}
+			a {
+				color: inherit;
 			}
 		</style>
 	</head>
 	<body>
 		<div id="emojis"></div>
+		<p>
+			So far this is an emoji generator and renderer,
+			with a fairly limited space of expressions.
+			<b>Click on an emoji to edit it.</b>
+			(The editing UI just uses <a href="https://github.com/dataarts/dat.gui">dat.gui</a> for now;
+			it's far from what I would design custom for this project.)
+		</p>
+		<p>
+			The goal of this project is a semantically branching emoji picker.
+			Rather than scrolling through a long list looking for an emoji you want,
+			you should be able to directly navigate the space of expressive possibilities and
+			drill down to the emoji you want,
+			even if it's never been used before.
+		</p>
+		<p>
+			More info is <a href="https://github.com/multiism/emoji">on GitHub</a>, along with the source code.
+		</p>
+		<footer>
+			<ul>
+				<li>
+					<a href="http://multiism.ml/">Multiism.ml</a>
+				</li>
+			</ul>
+		</footer>
 		<script>
 			~function(){
 				animate=function a(f){f(),requestAnimationFrame(function(){a(f)})}
