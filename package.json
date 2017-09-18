@@ -1,0 +1,10 @@
+{
+  "name": "emoji",
+  "version": "0.1.0",
+  "scripts": {
+    "watch": "coffee --compile --watch --output build/ src/"
+  },
+  "devDependencies": {
+    "coffeescript": "^2.0.0"
+  }
+}
