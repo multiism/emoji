@@ -1,6 +1,6 @@
 # emoji (pre-alpha)
 
-<img width="48" height="48" src="./example-images/1.png" alt="" /> <img width="48" height="48" src="./example-images/2.png" alt="" /> <img width="48" height="48" src="./example-images/3.png" alt="" /> <img width="48" height="48" src="./example-images/4.png" alt="" /> <img width="48" height="48" src="./example-images/5.png" alt="" /> <img width="48" height="48" src="./example-images/6.png" alt="" /> <img width="48" height="48" src="./example-images/7.png" alt="" />
+<img width="48" height="48" src="./docs/example-images/1.png" alt="" /> <img width="48" height="48" src="./docs/example-images/2.png" alt="" /> <img width="48" height="48" src="./docs/example-images/3.png" alt="" /> <img width="48" height="48" src="./docs/example-images/4.png" alt="" /> <img width="48" height="48" src="./docs/example-images/5.png" alt="" /> <img width="48" height="48" src="./docs/example-images/6.png" alt="" /> <img width="48" height="48" src="./docs/example-images/7.png" alt="" />
 
 Right now this is a simple emoji *generator*,
 which you can [try out here][app].
