@@ -1,6 +1,5 @@
 import makeEmojiDisplay from "../src/make-emoji-display";
 
-
 const makeSmileExpression = (smileAmount) => {
   return {
     eyes: {
@@ -22,19 +21,57 @@ const makeSmileExpression = (smileAmount) => {
     }
   };
 };
+const frown = -1;
+const smile = 1;
 
-const makeSlider = ()=> {
+const linearInterpolate = (start, end, fraction) => start + (end - start) * fraction;
+
+const smileynessForIndex = (face, faceCount) => {
+  return linearInterpolate(frown, smile, face / (faceCount - 1));
+};
+
+const makeSlider = () => {
   const container = document.createElement("div");
   const displays = [];
-  let frown = -1;
-  let smile = 1;
-  let faceCount = 5;
+  const faceCount = 5;
+  const size = 32;
+
   for (let face = 0; face < faceCount; face++) {
-    const smileyness = (smile - frown)*face/(faceCount - 1) + frown;
-    const display = makeEmojiDisplay(makeSmileExpression(smileyness), {size: 32});
+    const smileyness = smileynessForIndex(face, faceCount);
+    const display = makeEmojiDisplay(makeSmileExpression(smileyness), { size });
     container.appendChild(display.canvas);
+    display.canvas.addEventListener("click", ()=>{
+
+    })
     displays.push(display);
   }
+
+  container.style.position = 'relative';
+  const selectedSmileyness = smileynessForIndex(0, faceCount);
+  const selectedFaceDisplay = makeEmojiDisplay(makeSmileExpression(selectedSmileyness), { size });
+  container.appendChild(selectedFaceDisplay.canvas);
+
+  const selectSmileIndex = (index)=> {
+
+    const selectedSmileyness = smileynessForIndex(index, faceCount);
+    selectedFaceDisplay.emoji = makeSmileExpression(selectedSmileyness); // mutant!?
+    selectedFaceDisplay.update();
+
+    selectedFaceDisplay.canvas.style.position = 'absolute';
+    const firstCanvas = displays[0].canvas;
+    const lastCanvas = displays[displays.length - 1].canvas;
+
+    selectedFaceDisplay.canvas.style.left = 0;
+
+    setTimeout(function(){
+      const x = linearInterpolate(firstCanvas.offsetLeft, lastCanvas.offsetLeft, index / (faceCount - 1));
+      const y = linearInterpolate(firstCanvas.offsetTop, lastCanvas.offsetTop, index / (faceCount - 1));
+      selectedFaceDisplay.canvas.style.transform = `translate(${ x }px, ${ y }px)`;
+    }, 200);
+  };
+
+  selectSmileIndex(0); // TODO: invisible initially instead
+
   return container;
 };
 
