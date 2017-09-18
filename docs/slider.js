@@ -38,11 +38,15 @@ const makeSlider = () => {
 
   for (let face = 0; face < faceCount; face++) {
     const smileyness = smileynessForIndex(face, faceCount);
-    const display = makeEmojiDisplay(makeSmileExpression(smileyness), { size });
+    const display = makeEmojiDisplay(makeSmileExpression(smileyness),
+      {
+        size,
+        colorScheme: { fill: '#aaa', stroke: '#fff' }
+      });
     container.appendChild(display.canvas);
-    display.canvas.addEventListener("click", ()=>{
-
-    })
+    display.canvas.addEventListener("click", function (face) {
+      selectSmileIndex(face);
+    }.bind(null, face));
     displays.push(display);
   }
 
@@ -51,7 +55,7 @@ const makeSlider = () => {
   const selectedFaceDisplay = makeEmojiDisplay(makeSmileExpression(selectedSmileyness), { size });
   container.appendChild(selectedFaceDisplay.canvas);
 
-  const selectSmileIndex = (index)=> {
+  const selectSmileIndex = (index) => {
 
     const selectedSmileyness = smileynessForIndex(index, faceCount);
     selectedFaceDisplay.emoji = makeSmileExpression(selectedSmileyness); // mutant!?
@@ -63,14 +67,16 @@ const makeSlider = () => {
 
     selectedFaceDisplay.canvas.style.left = 0;
 
-    setTimeout(function(){
+    requestAnimationFrame(function () {
       const x = linearInterpolate(firstCanvas.offsetLeft, lastCanvas.offsetLeft, index / (faceCount - 1));
       const y = linearInterpolate(firstCanvas.offsetTop, lastCanvas.offsetTop, index / (faceCount - 1));
       selectedFaceDisplay.canvas.style.transform = `translate(${ x }px, ${ y }px)`;
-    }, 200);
+    });
   };
 
-  selectSmileIndex(0); // TODO: invisible initially instead
+  setTimeout(function () {
+    selectSmileIndex(0); // TODO: invisible initially instead
+  }, 100);
 
   return container;
 };
