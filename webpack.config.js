@@ -1,7 +1,10 @@
 module.exports = {
-  entry: './src/app.js',
+  entry: {
+    app: "./src/app.js",
+    slider: "./docs/slider.js"
+  },
   output: {
-    filename: './build/app-bundle.js'
+    filename: "./build/[name]-bundle.js"
   },
   devtool: 'source-map',
   module: {

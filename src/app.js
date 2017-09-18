@@ -90,5 +90,8 @@ var openDatGuiForEmoji = function (emoji) {
 
 const emojiDisplays = ([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => makeEditableEmojiDisplay(makeRandomEmoji())));
 
-animate(() => selectedEmojiDisplay && selectedEmojiDisplay.update());
-
+const animate = ()=> {
+  selectedEmojiDisplay && selectedEmojiDisplay.update();
+  requestAnimationFrame(animate);
+};
+animate();
