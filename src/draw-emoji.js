@@ -5,6 +5,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
 
   const radius = diameter / 2;
 
+  const strokeWidth = diameter / 15;
   const yellowGradient = ctx.createLinearGradient(0, -radius, 0, diameter);
 
   yellowGradient.addColorStop(0.0, '#fcf5b5');
@@ -14,19 +15,24 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
   ctx.save();
   ctx.translate(x, y);
 
+  //draw fill
   ctx.beginPath();
   ctx.arc(0, 0, radius, 0, TAU);
   ctx.fillStyle = yellowGradient;
   ctx.fill();
+
+  //draw highlight
   ctx.beginPath();
   ctx.arc(0, 5, radius * 0.92, 0, TAU);
   ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-  ctx.lineWidth = 10;
+  ctx.lineWidth = strokeWidth;
   ctx.stroke();
+
+  //draw outline
   ctx.beginPath();
   ctx.arc(0, 0, diameter/2, 0, TAU);
   ctx.strokeStyle = "black";
-  ctx.lineWidth = 10; // TODO: scale the strokes
+  ctx.lineWidth = strokeWidth;
   ctx.stroke();
 
 
@@ -51,7 +57,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
     ctx.strokeStyle = "black";
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
-    ctx.lineWidth = 10;
+    ctx.lineWidth = strokeWidth;
     if (mouth.open) {
       ctx.closePath();
       ctx.fillStyle = "white";
@@ -73,7 +79,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
       ctx.strokeStyle = "black";
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
-      ctx.lineWidth = 10;
+      ctx.lineWidth = strokeWidth;
       ctx.closePath();
       ctx.fillStyle = "#f34";
       ctx.fill();
@@ -96,7 +102,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
         ctx.moveTo(x - (radius/7), y);
         ctx.lineTo(x + (radius/7), y);
         ctx.strokeStyle = "black";
-        ctx.lineWidth = 10;
+        ctx.lineWidth = strokeWidth;
         return ctx.stroke();
     }
   };

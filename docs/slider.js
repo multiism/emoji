@@ -30,8 +30,8 @@ const makeSlider = ()=> {
   let smile = 1;
   let faceCount = 5;
   for (let face = 0; face < faceCount; face++) {
-    const smiliness = (smile - frown)*face/(faceCount - 1) +frown;
-    const display = makeEmojiDisplay(makeSmileExpression(smiliness));
+    const smileyness = (smile - frown)*face/(faceCount - 1) + frown;
+    const display = makeEmojiDisplay(makeSmileExpression(smileyness), {size: 32});
     container.appendChild(display.canvas);
     displays.push(display);
   }
