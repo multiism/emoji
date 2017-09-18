@@ -1,7 +1,7 @@
 const {PI, cos, sin} = Math;
 const TAU = PI * 2;
 
-const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
+const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter, colorScheme) => {
 
   const radius = diameter / 2;
 
@@ -12,18 +12,21 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
   yellowGradient.addColorStop(0.5, '#f1da36');
   yellowGradient.addColorStop(1.0, '#f4c838');
 
+  const fill = colorScheme.fill || yellowGradient;
+  const strokeColor = colorScheme.stroke || 'black';
+
   ctx.save();
   ctx.translate(x, y);
 
   //draw fill
   ctx.beginPath();
   ctx.arc(0, 0, radius, 0, TAU);
-  ctx.fillStyle = yellowGradient;
+  ctx.fillStyle = fill;
   ctx.fill();
 
   //draw highlight
   ctx.beginPath();
-  ctx.arc(0, 5, radius * 0.92, 0, TAU);
+  ctx.arc(0, strokeWidth/2, radius * 0.92, 0, TAU);
   ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
   ctx.lineWidth = strokeWidth;
   ctx.stroke();
@@ -31,7 +34,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
   //draw outline
   ctx.beginPath();
   ctx.arc(0, 0, diameter/2, 0, TAU);
-  ctx.strokeStyle = "black";
+  ctx.strokeStyle = strokeColor;
   ctx.lineWidth = strokeWidth;
   ctx.stroke();
 
@@ -54,7 +57,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
       );
     }
 
-    ctx.strokeStyle = "black";
+    ctx.strokeStyle = strokeColor;
     ctx.lineJoin = "round";
     ctx.lineCap = "round";
     ctx.lineWidth = strokeWidth;
@@ -76,7 +79,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
         );
       }
 
-      ctx.strokeStyle = "black";
+      ctx.strokeStyle = strokeColor;
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
       ctx.lineWidth = strokeWidth;
@@ -96,12 +99,12 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
     switch (eye.type) {
       case "open":
         ctx.arc(x, y, radius/6, 0, TAU);
-        ctx.fillStyle = "black";
+        ctx.fillStyle = strokeColor;
         return ctx.fill();
       case "wink":
         ctx.moveTo(x - (radius/7), y);
         ctx.lineTo(x + (radius/7), y);
-        ctx.strokeStyle = "black";
+        ctx.strokeStyle = strokeColor;
         ctx.lineWidth = strokeWidth;
         return ctx.stroke();
     }

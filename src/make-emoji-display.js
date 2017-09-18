@@ -3,6 +3,7 @@ import drawEmoji from './draw-emoji';
 const makeEmojiDisplay = (emoji, options = {}) =>{
   const size = options.size || 150;
   const spacing = options.spacing || (size * 0.1) + 5;
+  const colorScheme = options.colorScheme || {};
 
   let update;
   const canvas = document.createElement("canvas");
@@ -13,7 +14,7 @@ const makeEmojiDisplay = (emoji, options = {}) =>{
 
   update = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    return drawEmoji(ctx, emoji, canvas.width / 2, canvas.height / 2, size);
+    return drawEmoji(ctx, emoji, canvas.width / 2, canvas.height / 2, size, colorScheme);
   };
   update();
 
