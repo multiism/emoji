@@ -1,3 +1,6 @@
+const {PI, cos, sin} = Math;
+const TAU = PI * 2;
+
 const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter) => {
 
   const radius = diameter / 2;
