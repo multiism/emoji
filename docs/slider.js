@@ -45,9 +45,7 @@ const makeSlider = () => {
         colorScheme: { fill: '#aaa', stroke: '#fff' }
       });
     container.appendChild(display.canvas);
-    display.canvas.addEventListener("click", function (face) {
-      selectSmileIndex(face)
-    }.bind(null, face));
+
     displays.push(display);
   }
 
@@ -55,6 +53,14 @@ const makeSlider = () => {
   const selectedSmileyness = smileynessForIndex(0, faceCount);
   const selectedFaceDisplay = new EmojiDisplay(makeSmileExpression(selectedSmileyness), { size });
   container.appendChild(selectedFaceDisplay.canvas);
+
+  displays.forEach((display, face)=>{
+    display.canvas.addEventListener("click", function (face) {
+      selectSmileIndex(face);
+      selectedFaceDisplay.canvas.style.transition = 'transform 0.5s ease';
+      selectedFaceDisplay.canvas.style.display = 'initial';
+    }.bind(null, face));
+  });
 
   const selectSmileIndex = (index) => {
 
@@ -76,11 +82,7 @@ const makeSlider = () => {
 
   selectedFaceDisplay.canvas.style.display = 'none';
   setTimeout(function () {
-    selectSmileIndex(2); // TODO: invisible initially instead
-    requestAnimationFrame(() => {
-      selectedFaceDisplay.canvas.style.transition = 'transform 0.5s ease';
-      selectedFaceDisplay.canvas.style.display = 'initial';
-    })
+    selectSmileIndex(2);
   }, 100);
 
   return container;
