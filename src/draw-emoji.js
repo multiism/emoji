@@ -53,7 +53,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter, colorScheme) => {
     for (i = 0; i <= 1; i += 0.1) {
       ctx.lineTo(
         (cos(i * PI) * radius)/2,
-        ((((sin(i * PI) * radius)/2) * mouth.smile) + (radius*0.2)) - smileY
+        ((((sin(i * PI) * radius)/2) * mouth.smile) + (radius*0.3)) - smileY
       );
     }
 
@@ -75,7 +75,7 @@ const drawEmoji = (ctx, {eyes, mouth}, x, y, diameter, colorScheme) => {
       for (i = 0; i <= 1; i += 0.1) {
         ctx.lineTo(
           (cos(i * PI) * radius)/3,
-          (((sin(i * PI) * radius)/2) * mouth.tongue) + (radius*0.2) + (smileY * (mouth.open ? 0 : 1))
+          (((sin(i * PI) * radius)/2) * mouth.tongue) + (radius*0.3) + (smileY * (mouth.open ? 0 : 1))
         );
       }
 

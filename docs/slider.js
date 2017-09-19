@@ -21,8 +21,8 @@ const makeSmileExpression = (smileAmount) => {
     }
   };
 };
-const frown = -1;
-const smile = 1;
+const frown = -0.7;
+const smile = 0.7;
 
 const linearInterpolate = (start, end, fraction) => start + (end - start) * fraction;
 
