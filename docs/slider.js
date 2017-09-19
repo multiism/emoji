@@ -1,4 +1,4 @@
-import makeEmojiDisplay from "../src/make-emoji-display";
+import EmojiDisplay from "../src/emoji-display";
 
 const makeSmileExpression = (smileAmount) => {
   return {
@@ -38,28 +38,28 @@ const makeSlider = () => {
 
   for (let face = 0; face < faceCount; face++) {
     const smileyness = smileynessForIndex(face, faceCount);
-    const display = makeEmojiDisplay(makeSmileExpression(smileyness),
+    const display = new EmojiDisplay(
+      makeSmileExpression(smileyness),
       {
         size,
         colorScheme: { fill: '#aaa', stroke: '#fff' }
       });
     container.appendChild(display.canvas);
     display.canvas.addEventListener("click", function (face) {
-      selectSmileIndex(face);
+      selectSmileIndex(face)
     }.bind(null, face));
     displays.push(display);
   }
 
   container.style.position = 'relative';
   const selectedSmileyness = smileynessForIndex(0, faceCount);
-  const selectedFaceDisplay = makeEmojiDisplay(makeSmileExpression(selectedSmileyness), { size });
+  const selectedFaceDisplay = new EmojiDisplay(makeSmileExpression(selectedSmileyness), { size });
   container.appendChild(selectedFaceDisplay.canvas);
 
   const selectSmileIndex = (index) => {
 
     const selectedSmileyness = smileynessForIndex(index, faceCount);
-    selectedFaceDisplay.emoji = makeSmileExpression(selectedSmileyness); // mutant!?
-    selectedFaceDisplay.update();
+    selectedFaceDisplay.update({ emoji: makeSmileExpression(selectedSmileyness) });
 
     selectedFaceDisplay.canvas.style.position = 'absolute';
     const firstCanvas = displays[0].canvas;
@@ -74,8 +74,13 @@ const makeSlider = () => {
     });
   };
 
+  selectedFaceDisplay.canvas.style.display = 'none';
   setTimeout(function () {
-    selectSmileIndex(0); // TODO: invisible initially instead
+    selectSmileIndex(2); // TODO: invisible initially instead
+    requestAnimationFrame(() => {
+      selectedFaceDisplay.canvas.style.transition = 'transform 0.5s ease';
+      selectedFaceDisplay.canvas.style.display = 'initial';
+    })
   }, 100);
 
   return container;

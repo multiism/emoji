@@ -1,4 +1,4 @@
-import makeEmojiDisplay from './make-emoji-display';
+import makeEmojiDisplay from './emoji-display';
 
 const makeRandomEmoji = function () {
   const chooseRandom = array => array[~~(Math.random() * array.length)];
@@ -76,7 +76,7 @@ var openDatGuiForEmoji = function (emoji) {
   mouthFolder.open();
   mouthFolder.add(emoji.mouth, 'smile', -1, +1).name('Smile');
   mouthFolder.add(emoji.mouth, 'open').name('Open');
-  mouthFolder.add(emoji.mouth, 'tongue', -1, +1).step(0.5);
+  mouthFolder.add(emoji.mouth, 'tongue', -1, +1).step(0.5).name('Tongue');
   const eyesFolder = datGui.addFolder('Eyes');
   eyesFolder.open();
   eyesFolder.add(emoji.eyes.left, 'type', { "Open": "open", "Wink": "wink" }).name('Left Eye');
