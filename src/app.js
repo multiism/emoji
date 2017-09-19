@@ -1,4 +1,4 @@
-import makeEmojiDisplay from './emoji-display';
+import EmojiDisplay from './emoji-display';
 
 const makeRandomEmoji = function () {
   const chooseRandom = array => array[~~(Math.random() * array.length)];
@@ -44,15 +44,15 @@ const emojisContainer = document.getElementById("emojis");
 let selectedEmojiDisplay = null;
 
 const makeEditableEmojiDisplay = function (emoji) {
-  const thisEmojiDisplay = makeEmojiDisplay(emoji);
-  const { canvas } = thisEmojiDisplay;
+  const emojiDisplay =  new EmojiDisplay(emoji);
+  const { canvas } = emojiDisplay;
   canvas.style.cursor = "pointer";
   emojisContainer.appendChild(canvas);
   canvas.addEventListener("click", e => {
-    selectedEmojiDisplay = thisEmojiDisplay;
+    selectedEmojiDisplay = emojiDisplay;
     return toggleDatGuiForEmoji(emoji);
   });
-  return thisEmojiDisplay;
+  return emojiDisplay;
 };
 
 
