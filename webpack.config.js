@@ -1,7 +1,7 @@
 module.exports = {
   entry: {
     app: "./src/app.js",
-    slider: "./docs/slider.js"
+    slider: "./docs/add-slider.js"
   },
   output: {
     filename: "./build/[name]-bundle.js"
