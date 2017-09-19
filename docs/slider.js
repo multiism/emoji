@@ -1,26 +1,6 @@
 import EmojiDisplay from "../src/emoji-display";
+import makeSmileExpression from './smile-factory';
 
-const makeSmileExpression = (smileAmount) => {
-  return {
-    eyes: {
-      left: {
-        type: "open",
-        offsetX: 0,
-        offsetY: 0
-      },
-      right: {
-        type: "open",
-        offsetX: 0,
-        offsetY: 0
-      }
-    },
-    mouth: {
-      smile: smileAmount,
-      open: false,
-      tongue: 0
-    }
-  };
-};
 const frown = -0.7;
 const smile = 0.7;
 
@@ -54,7 +34,7 @@ const makeSlider = () => {
   const selectedFaceDisplay = new EmojiDisplay(makeSmileExpression(selectedSmileyness), { size });
   container.appendChild(selectedFaceDisplay.canvas);
 
-  displays.forEach((display, face)=>{
+  displays.forEach((display, face) => {
     display.canvas.addEventListener("click", function (face) {
       selectSmileIndex(face);
       selectedFaceDisplay.canvas.style.transition = 'transform 0.5s ease';
@@ -62,10 +42,16 @@ const makeSlider = () => {
     }.bind(null, face));
   });
 
-  const selectSmileIndex = (index) => {
-
+  const showExpressionForIndex = function (index) {
     const selectedSmileyness = smileynessForIndex(index, faceCount);
     selectedFaceDisplay.update({ emoji: makeSmileExpression(selectedSmileyness) });
+  };
+
+  let smileIndex;
+  const selectSmileIndex = (index) => {
+    const previousIndex = smileIndex;
+    smileIndex = index;
+    showExpressionForIndex(index);
 
     selectedFaceDisplay.canvas.style.position = 'absolute';
     const firstCanvas = displays[0].canvas;
@@ -78,6 +64,13 @@ const makeSlider = () => {
       const y = linearInterpolate(firstCanvas.offsetTop, lastCanvas.offsetTop, index / (faceCount - 1));
       selectedFaceDisplay.canvas.style.transform = `translate(${ x }px, ${ y }px)`;
     });
+    const frameCount = 12;
+    for (let frame = 0; frame < frameCount; frame++) {
+      const interpolatedIndex = linearInterpolate(previousIndex, index, frame/(frameCount -1));
+      setTimeout(()=>{
+        showExpressionForIndex(interpolatedIndex);
+      }, frame*500/frameCount)
+    }
   };
 
   selectedFaceDisplay.canvas.style.display = 'none';
