@@ -11,7 +11,9 @@ const smileynessForIndex = (face, faceCount) => {
 };
 
 class Slider {
-
+  constructor(onSelect){
+    this.onSelect = onSelect;
+  }
   smileIndex;
   selectSmileIndex(index) {
     const previousIndex = this.smileIndex;
@@ -79,6 +81,9 @@ class Slider {
         this.selectSmileIndex(face);
         selectedFaceDisplay.canvas.style.transition = 'transform 0.5s ease';
         selectedFaceDisplay.canvas.style.display = 'initial';
+        if(this.onSelect){
+          this.onSelect(index);
+        }
       }.bind(null, face));
     });
 
