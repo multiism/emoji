@@ -13,8 +13,8 @@ const smileynessForIndex = (face, faceCount) => {
 class Slider {
   constructor(onSelect){
     this.onSelect = onSelect;
+    this.smileIndex = null;
   }
-  smileIndex;
   selectSmileIndex(index) {
     const previousIndex = this.smileIndex;
     this.smileIndex = index;
@@ -33,7 +33,7 @@ class Slider {
       const x = linearInterpolate(firstCanvas.offsetLeft, lastCanvas.offsetLeft, index / (this.faceCount - 1));
       const y = linearInterpolate(firstCanvas.offsetTop, lastCanvas.offsetTop, index / (this.faceCount - 1));
       this.selectedFaceDisplay.canvas.style.transform = `translate(${ x }px, ${ y }px)`;
-    });
+    }.bind(this));
   }
 
   animateSliderFaceExpression(previousIndex, index) {
@@ -84,14 +84,14 @@ class Slider {
         if(this.onSelect){
           this.onSelect(index);
         }
-      }.bind(null, face));
+      }.bind(this, face));
     });
 
 
     selectedFaceDisplay.canvas.style.display = 'none';
     setTimeout(function () {
       this.selectSmileIndex(2);
-    }, 100);
+    }.bind(this), 100);
 
     return container;
   }
