@@ -16,8 +16,11 @@ class Slider {
   selectSmileIndex(index) {
     const previousIndex = this.smileIndex;
     this.smileIndex = index;
-    this.showExpressionForIndex(index);
+    this.setSliderFacePosition(index);
+    this.animateSliderFaceExpression(previousIndex, index);
+  };
 
+  setSliderFacePosition(index) {
     this.selectedFaceDisplay.canvas.style.position = 'absolute';
     const firstCanvas = this.displays[0].canvas;
     const lastCanvas = this.displays[this.displays.length - 1].canvas;
@@ -29,7 +32,9 @@ class Slider {
       const y = linearInterpolate(firstCanvas.offsetTop, lastCanvas.offsetTop, index / (this.faceCount - 1));
       this.selectedFaceDisplay.canvas.style.transform = `translate(${ x }px, ${ y }px)`;
     });
+  }
 
+  animateSliderFaceExpression(previousIndex, index) {
     const frameCount = 12;
     for (let frame = 0; frame < frameCount; frame++) {
       const interpolatedIndex = linearInterpolate(previousIndex, index, frame / (frameCount - 1));
@@ -37,7 +42,7 @@ class Slider {
         this.showExpressionForIndex(interpolatedIndex);
       }, frame * 500 / frameCount)
     }
-  };
+  }
 
   showExpressionForIndex(index) {
     const selectedSmileyness = smileynessForIndex(index, this.faceCount);
