@@ -1,4 +1,4 @@
-import drawEmoji from './draw-emoji';
+import drawEmoji from "./draw-emoji";
 
 class EmojiDisplay {
   constructor(emoji, options = {}) {
@@ -14,19 +14,19 @@ class EmojiDisplay {
   }
 
   getDefaultSpacing() {
-    return (this.size * 0.1) + 5;
+    return this.size * 0.1 + 5;
   }
 
   update(options = {}) {
     this.size = options.size || this.size;
-    this.spacing = options.spacing || options.size? this.getDefaultSpacing() : this.spacing;
+    this.spacing =
+      options.spacing || options.size ? this.getDefaultSpacing() : this.spacing;
     this.colorScheme = options.colorScheme || this.colorScheme;
-
 
     this.canvas.width = this.size + this.spacing;
     this.canvas.height = this.size + this.spacing;
-    if(options.emoji){
-      this.emoji = Object.assign( this.emoji, options.emoji);
+    if (options.emoji) {
+      this.emoji = Object.assign(this.emoji, options.emoji);
     }
 
     drawEmoji(
@@ -35,7 +35,8 @@ class EmojiDisplay {
       this.canvas.width / 2,
       this.canvas.height / 2,
       this.size,
-      this.colorScheme);
+      this.colorScheme
+    );
   }
 }
 

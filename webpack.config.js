@@ -6,15 +6,15 @@ module.exports = {
   output: {
     filename: "./build/[name]-bundle.js"
   },
-  devtool: 'source-map',
+  devtool: "source-map",
   module: {
     loaders: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         query: {
-          presets: ['env']
+          presets: ["env"]
         }
       }
     ]

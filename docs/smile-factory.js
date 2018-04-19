@@ -1,5 +1,4 @@
-
-const makeSmileExpression = (smileAmount) => {
+const makeSmileExpression = smileAmount => {
   return {
     eyes: {
       left: {
