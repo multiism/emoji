@@ -34,6 +34,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
+    "precommit": "lint-staged",
     "format": "prettier --write \"{*,src/**/*,docs/**/*}.{js,css}\""
   },
   "lint-staged": {
