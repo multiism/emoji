@@ -1,6 +1,36 @@
 {
-  "name": "emoji",
+  "name": "emoji-renderer",
   "version": "0.1.0",
+  "description": "Draw custom emoji",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/1j01/emoj.git"
+  },
+  "bugs": {
+    "url": "http://github.com/1j01/emoji/issues"
+  },
+  "author": "Isaiah Odhner <isaiahodhner@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "emoji",
+    "expression",
+    "facial-expression",
+    "face",
+    "faces",
+    "smile",
+    "smiley",
+    "smileys",
+    "emotion",
+    "emotive",
+    "emotional",
+    "emoticon",
+    "sentiment",
+    "human",
+    "communication",
+    "messaging",
+    "chat"
+  ],
+  "main": "src/draw-emoji.js",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch"
