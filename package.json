@@ -33,7 +33,14 @@
   "main": "src/draw-emoji.js",
   "scripts": {
     "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "format": "prettier --write \"{*,src/**/*,docs/**/*}.{js,css}\""
+  },
+  "lint-staged": {
+    "{*,src/**/*,docs/**/*}.{js,css}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -41,6 +48,7 @@
     "babel-preset-env": "^1.6.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.0.4",
+    "prettier": "^1.12.1",
     "webpack": "^3.6.0"
   }
 }
