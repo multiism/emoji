@@ -17,4 +17,4 @@ be it silly or serious.
 (Or seriously silly.)
 
 
-[app]: https://multiism.github.io/emoji/
+[app]: https://emoji.multiism.ml/
