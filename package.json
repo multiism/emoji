@@ -4,7 +4,7 @@
   "description": "Draw custom emoji",
   "repository": {
     "type": "git",
-    "url": "http://github.com/1j01/emoj.git"
+    "url": "http://github.com/1j01/emoji.git"
   },
   "bugs": {
     "url": "http://github.com/1j01/emoji/issues"
