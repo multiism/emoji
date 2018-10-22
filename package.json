@@ -1,13 +1,13 @@
 {
   "name": "emoji-renderer",
   "version": "0.1.0",
-  "description": "Draw custom emoji",
+  "description": "Draw custom emoji procedurally",
   "repository": {
     "type": "git",
-    "url": "http://github.com/1j01/emoji.git"
+    "url": "https://github.com/multiism/emoji.git"
   },
   "bugs": {
-    "url": "http://github.com/1j01/emoji/issues"
+    "url": "http://github.com/multiism/emoji/issues"
   },
   "author": "Isaiah Odhner <isaiahodhner@gmail.com>",
   "license": "MIT",
@@ -20,6 +20,7 @@
     "smile",
     "smiley",
     "smileys",
+    "smilies",
     "emotion",
     "emotive",
     "emotional",
