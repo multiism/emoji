@@ -4,7 +4,8 @@ module.exports = {
     slider: "./docs/add-slider.js"
   },
   output: {
-    filename: "./build/[name]-bundle.js"
+    filename: "[name]-bundle.js",
+    path: require("path").resolve(__dirname, "build"),
   },
   mode: "development",
   module: {
