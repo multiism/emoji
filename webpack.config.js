@@ -6,9 +6,9 @@ module.exports = {
   output: {
     filename: "./build/[name]-bundle.js"
   },
-  devtool: "source-map",
+  mode: "development",
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
