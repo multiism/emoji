@@ -1,4 +1,5 @@
-build/
+# For now, for GitHub Pages, include the built files in the repo
+# build/
 
 # Logs
 logs
